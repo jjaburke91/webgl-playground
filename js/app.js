@@ -141,8 +141,9 @@ pass.renderToScreen = true;
 // Animation
 
 function animate(objectToAnimate) {
-    objectToAnimate.rotation.x += 0.005;
+    objectToAnimate.rotation.x += 0.0045;
     objectToAnimate.rotation.y += 0.005;
+    objectToAnimate.rotation.z += 0.0032;
 
     if (typeof composer !== 'undefined') {
         composer.render();
