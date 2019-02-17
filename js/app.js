@@ -3,7 +3,10 @@ const COLORS = {
     white: "#FFFFFF",
     orange: "#ffd0b5",
     grey: "#61635e",
+    black: "#000000",
 };
+
+const USE_CUBE = true;
 
 function createLight() {
     const light = new THREE.SpotLight(COLORS.white, 0.9, 1000, 180, 0, 0);
@@ -97,14 +100,16 @@ function addUnrealBloomPass() {
  */
 
 /** Setup **/
+const loader = new THREE.TextureLoader();
 const scene = new THREE.Scene();
 
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-const renderer = new THREE.WebGLRenderer();
-renderer.setClearColor(COLORS.grey);
+const renderer = new THREE.WebGLRenderer({alpha: true});
+renderer.setClearColor(COLORS.white);
 renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.autoClear = false;
 document.body.appendChild( renderer.domElement );
 
 createLight();
@@ -112,21 +117,30 @@ const camera = createCamera();
 
 // Shapes
 const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+const texture = loader.load( "/3d-playground/img/logo.png" );
+const material = new THREE.MeshLambertMaterial({
+    transparent: true,
+    opacity: 1,
+    map: texture,
+    emissive: COLORS.black, // sets color of face
+    color: COLORS.green,
+    // side: THREE.DoubleSide,
+});
 
-const material = new THREE.MeshLambertMaterial({color: COLORS.green, transparent: false, opacity: 1});
 const cube = new THREE.Mesh( geometry, material );
-// scene.add( cube );
+if (USE_CUBE) scene.add( cube );
 
+// EDGES
 const edges = new THREE.EdgesHelper(cube, COLORS.orange );
 edges.material.linewidth = 5;
-scene.add( edges );
+if (!USE_CUBE) scene.add( edges );
 
 /******/
 // Post Processing
 const DO_GLITCH_PASS = 0;
 const DO_AFTERIMAGE_PASS = 1;
 const DO_BLUR_PASS = 0;
-const DO_UNREALBLOOM_PASS = 1;
+const DO_UNREALBLOOM_PASS = 0;
 
 const composer = new THREE.EffectComposer(renderer);
 
@@ -153,4 +167,4 @@ function animate(objectToAnimate) {
 
     requestAnimationFrame( () => animate(objectToAnimate) );
 }
-animate(edges);
+animate(USE_CUBE ? cube : edges);
