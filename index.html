@@ -9,10 +9,30 @@
         canvas {
             width: 100%;
             height: 100%;
+            z-index: 99999;
+        }
+
+        .video_bg {
+            display: none;
+            width: 100%;
+            position: absolute;
+            z-index: 1;
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
+
+<video id="video" class="video_bg"
+       src="/3d-playground/video/slow-focus.mp4"
+       poster="https://media2.ntslive.co.uk/resize/1600x1600/01f7cbe6-235f-4e33-8f2f-70152c91edf1_1542931200.jpeg"
+       loop=""
+       playsinline=""
+       disableremoteplayback="true"
+       crossorigin="anonymous"
+>
+</video>
+
 
 <script src="three.js-master/build/three.min.js"></script>
 

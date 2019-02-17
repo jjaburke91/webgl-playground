@@ -28,6 +28,9 @@ function createCamera() {
 
 let renderPass, glitchPass, afterImagePass, bokehPass, unrealBloomPass;
 function addRenderPass() {
+    // const backgroundRenderPass = new THREE.RenderPass( backgroundScene, backgroundCamera );
+    // composer.addPass(backgroundRenderPass);
+
     renderPass = new THREE.RenderPass(scene, camera);
     composer.addPass(renderPass);
     return renderPass;
@@ -112,6 +115,43 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.autoClear = false;
 document.body.appendChild( renderer.domElement );
 
+// let backgroundMesh, backgroundScene, backgroundCamera;
+// loader.load("/3d-playground/img/bg.jpeg", texture => {
+//     backgroundMesh = new THREE.Mesh(
+//         new THREE.PlaneGeometry(2, 2, 0),
+//         new THREE.MeshBasicMaterial({
+// //             map: texture
+// //         })
+// //     );
+//
+//     backgroundMesh.material.depthTest = false;
+//     backgroundMesh.material.depthWrite = false;
+//
+//     backgroundScene = new THREE.Scene();
+//     backgroundCamera = new THREE.Camera();
+//     backgroundScene.add( backgroundCamera );
+//     backgroundScene.add( backgroundMesh );
+// });
+//
+// const videoElement = document.getElementById( 'video' );
+// const videoTexture = new THREE.VideoTexture(videoElement);
+// videoTexture.minFilter = THREE.LinearFilter;
+// videoTexture.magFilter = THREE.LinearFilter;
+// videoTexture.format = THREE.RGBFormat;
+//
+// backgroundMesh = new THREE.Mesh(
+//     new THREE.PlaneGeometry(2, 2, 0),
+//     new THREE.MeshBasicMaterial({
+//         map: videoTexture
+//     })
+// );
+// // backgroundMesh.material.depthTest = false;
+// // backgroundMesh.material.depthWrite = false;
+// backgroundScene = new THREE.Scene();
+// backgroundCamera = new THREE.Camera();
+// backgroundScene.add( backgroundCamera );
+// backgroundScene.add( videoTexture );
+
 createLight();
 const camera = createCamera();
 
@@ -162,6 +202,7 @@ function animate(objectToAnimate) {
     if (typeof composer !== 'undefined') {
         composer.render();
     } else {
+        // renderer.render( backgroundScene, backgroundCamera );
         renderer.render( scene, camera );
     }
 
